@@ -15,10 +15,15 @@ $containers['cookies'] = function($c) {
 
 $app = new \Slim\App($containers);
 
-$app->map(['GET', 'POST', 'PUT', 'DELETE'], '[/{controller:.*}]', function($request, $response, $attrs) {
     try {
-        $controller = empty($attrs['controller']) ? 'Index' : join('\\', array_map('ucfirst', explode('/', $attrs['controller'])));
-        $controller = '\\App\\Controller\\' . $controller;
+        if (empty($attrs['controller'])) {
+            $controller = 'Index';
+        } else {
+            $parts = explode('/', strtolower($attrs['controller']));
+            $f = array_pop($parts);
+            $controller = join('\\', $parts) . '\\' . ucfirst($f);
+        }
+        $controller = '\\app\\controller\\' . $controller;
         $obj = new $controller($request, $response);
         $body = call_user_func_array([$obj, strtolower($request->getMethod())], []);
         return $response->withAddedHeader('Code', 0)->withAddedHeader('Msg', '')->withJson($body);

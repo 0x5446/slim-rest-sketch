@@ -1,9 +1,10 @@
 <?php
-namespace App\Controller;
+namespace app\controller;
 
-class Index extends \App\Controller\Base
+class Index extends \app\controller\Base
 {
 
+    /*
     public function get() {
         return __METHOD__;
     }
@@ -16,4 +17,5 @@ class Index extends \App\Controller\Base
     public function delete() {
         return __METHOD__;
     }
+     */
 }
